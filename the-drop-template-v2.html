@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>The Drop</title>
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <style>
+    /* Reset - Critical for consistent rendering */
+    body, table, td, p, a, li { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; max-width: 100%; }
+    body { margin: 0 !important; padding: 0 !important; width: 100% !important; min-width: 100% !important; }
+
+    /* Base */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #E5E7EB;
+      background-color: #0A0A0B;
+    }
+
+    /* Links */
+    a { color: #818CF8; text-decoration: none; }
+    a:hover { color: #A5B4FC; text-decoration: underline; }
+
+    /* Force full width on mobile - Gmail app compatible */
+    @media screen and (max-width: 600px) {
+      .email-container { width: 100% !important; max-width: 100% !important; }
+      .content-padding { padding-left: 16px !important; padding-right: 16px !important; }
+      .section-card { border-radius: 8px !important; }
+      .mobile-full-width { width: 100% !important; }
+      .mobile-padding { padding: 16px !important; }
+    }
+
+    /* Gmail app specific - uses u + .body selector */
+    u + .body .email-container { width: 100% !important; }
+    u + .body .content-padding { padding-left: 16px !important; padding-right: 16px !important; }
+  </style>
+</head>
+<body class="body" style="margin: 0; padding: 0; background-color: #0A0A0B; width: 100% !important; min-width: 100% !important;">
+
+  <!-- Preheader -->
+  <div style="display: none; max-height: 0; overflow: hidden;">
+    Your morning intel: Markets, deals, pharma, tech, and what the internet is talking about.
+  </div>
+
+  <!-- Email wrapper -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #0A0A0B;">
+    <tr>
+      <td align="center" style="padding: 32px 16px;">
+
+        <!-- Email container -->
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="email-container" style="max-width: 580px; width: 100%; background-color: #0A0A0B;">
+
+          <!-- Masthead with hero image background -->
+          <tr>
+            <td style="padding: 0 0 24px 0;">
+              <!--[if gte mso 9]>
+              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:580px;height:200px;">
+                <v:fill type="frame" src="{{HEADER_BG_IMAGE}}" />
+                <v:textbox inset="0,0,0,0">
+              <![endif]-->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-radius: 12px; overflow: hidden;" background="{{HEADER_BG_IMAGE}}">
+                <tr>
+                  <td align="center" valign="middle" style="padding: 60px 24px; background-image: url('{{HEADER_BG_IMAGE}}'); background-size: cover; background-position: center; background-color: #1a1a2e;">
+                    <!-- Dark overlay for text readability -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td align="center" style="padding: 20px; background: rgba(10,10,11,0.55); border-radius: 8px;">
+                          <h1 style="margin: 0 0 8px 0; font-size: 42px; font-weight: 700; color: #FFFFFF; letter-spacing: -1px; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">THE DROP</h1>
+                          <p style="margin: 0; font-size: 14px; color: #F4F4F5; font-weight: 500; letter-spacing: 0.05em; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">{{DATE}}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <!--[if gte mso 9]>
+                </v:textbox>
+              </v:rect>
+              <![endif]-->
+            </td>
+          </tr>
+
+          <!-- Good Morning Card -->
+          <tr>
+            <td style="padding: 0 0 20px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background: linear-gradient(135deg, #1F1F23 0%, #18181B 100%); border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 12px 0; font-size: 11px; font-weight: 600; color: #A78BFA; text-transform: uppercase; letter-spacing: 0.12em;">Good Morning</p>
+                    <p style="margin: 0; font-size: 17px; line-height: 1.7; color: #F4F4F5; font-weight: 400;">
+                      {{GOOD_MORNING_CONTENT}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Before The Bell Card -->
+          <tr>
+            <td style="padding: 0 0 20px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background-color: #18181B; border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: 600; color: #34D399; text-transform: uppercase; letter-spacing: 0.12em;">Before The Bell</p>
+
+                    <!-- Market Snapshot Image from Exec Sum -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 24px;" class="mobile-full-width">
+                      <tr>
+                        <td style="background-color: #27272A; border-radius: 8px; overflow: hidden;">
+                          <img src="{{EXEC_SUM_MARKET_IMAGE_URL}}" alt="Market Snapshot" style="display: block; width: 100%; max-width: 100%; height: auto; border-radius: 8px;" />
+                        </td>
+                      </tr>
+                    </table>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">Markets</p>
+                    <ul style="margin: 0 0 24px 0; padding-left: 0; list-style: none;">
+                      {{BEFORE_THE_BELL_MARKETS}}
+                    </ul>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">Last Week's Earnings</p>
+                    <ul style="margin: 0 0 24px 0; padding-left: 0; list-style: none;">
+                      {{BEFORE_THE_BELL_EARNINGS_LAST}}
+                    </ul>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">This Week's Earnings</p>
+                    <p style="margin: 0; font-size: 14px; color: #A1A1AA; line-height: 1.8;">
+                      {{BEFORE_THE_BELL_EARNINGS_UPCOMING}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Headline Roundup Card -->
+          <tr>
+            <td style="padding: 0 0 20px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background-color: #18181B; border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: 600; color: #F472B6; text-transform: uppercase; letter-spacing: 0.12em;">Headline Roundup</p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                      {{HEADLINE_ROUNDUP}}
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Pharma & Health Intel Card -->
+          <tr>
+            <td style="padding: 0 0 20px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background-color: #18181B; border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: 600; color: #22D3EE; text-transform: uppercase; letter-spacing: 0.12em;">Pharma & Health Intel</p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                      {{PHARMA_HEALTH_INTEL}}
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Tech & AI Card -->
+          <tr>
+            <td style="padding: 0 0 20px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background-color: #18181B; border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: 600; color: #FBBF24; text-transform: uppercase; letter-spacing: 0.12em;">Tech & AI</p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                      {{TECH_AI}}
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Deal Flow Card -->
+          <tr>
+            <td style="padding: 0 0 20px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background-color: #18181B; border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: 600; color: #FB923C; text-transform: uppercase; letter-spacing: 0.12em;">Deal Flow</p>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">M&A</p>
+                    <ul style="margin: 0 0 20px 0; padding-left: 0; list-style: none;">
+                      {{DEAL_FLOW_MA}}
+                    </ul>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">Venture</p>
+                    <ul style="margin: 0 0 20px 0; padding-left: 0; list-style: none;">
+                      {{DEAL_FLOW_VENTURE}}
+                    </ul>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">Scouting Picks</p>
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background: linear-gradient(135deg, #1E1B4B 0%, #172554 100%); border-radius: 8px; border: 1px solid #3730A3;">
+                      <tr>
+                        <td style="padding: 16px;">
+                          {{DEAL_FLOW_SCOUTING}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- NYC This Week Card -->
+          <tr>
+            <td style="padding: 0 0 20px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background-color: #18181B; border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: 600; color: #4ADE80; text-transform: uppercase; letter-spacing: 0.12em;">NYC This Week</p>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">Events</p>
+                    <ul style="margin: 0 0 20px 0; padding-left: 0; list-style: none;">
+                      {{NYC_EVENTS}}
+                    </ul>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">Eats</p>
+                    <p style="margin: 0; font-size: 15px; color: #E4E4E7; line-height: 1.6;">
+                      {{NYC_RESTAURANT}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- NYC Callout (optional) -->
+          {{NYC_CALLOUT_SECTION}}
+
+          <!-- Culture Corner Card -->
+          <tr>
+            <td style="padding: 0 0 20px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background-color: #18181B; border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: 600; color: #E879F9; text-transform: uppercase; letter-spacing: 0.12em;">Culture Corner</p>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">Sports</p>
+                    <ul style="margin: 0 0 20px 0; padding-left: 0; list-style: none;">
+                      {{CULTURE_SPORTS}}
+                    </ul>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">Meme of the Week</p>
+                    <p style="margin: 0 0 20px 0; font-size: 14px; color: #A1A1AA; line-height: 1.6;">
+                      {{CULTURE_MEME}}
+                    </p>
+
+                    <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.05em;">The Internet This Week</p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                      {{CULTURE_INTERNET}}
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Reads of the Week Card -->
+          <tr>
+            <td style="padding: 0 0 32px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="section-card" style="background-color: #18181B; border-radius: 12px; border: 1px solid #27272A;">
+                <tr>
+                  <td class="content-padding" style="padding: 24px 28px;">
+                    <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: 600; color: #60A5FA; text-transform: uppercase; letter-spacing: 0.12em;">Reads of the Week</p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                      {{READS_OF_THE_WEEK}}
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 0 0 16px 0; text-align: center;">
+              <p style="margin: 0; font-size: 13px; color: #71717A;">
+                Curated just for Rohan
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- End email container -->
+
+      </td>
+    </tr>
+  </table>
+  <!-- End email wrapper -->
+
+</body>
+</html>
