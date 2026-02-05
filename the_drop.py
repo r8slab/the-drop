@@ -206,11 +206,26 @@ class TheDropGenerator:
         # Extract images
         images = self._extract_images(body)
 
-        # Parse HTML content
+        # Parse HTML content - convert to markdown-style text with inline links preserved
         soup = BeautifulSoup(body, 'lxml')
-        text = soup.get_text(separator='\n', strip=True)
+
+        # Convert links to markdown format inline, so Claude can see the association
+        # between link text and URL
+        for a in soup.find_all('a', href=True):
+            href = a.get('href', '')
+            link_text = a.get_text(strip=True)
+            # Skip mailto, empty, or anchor-only links
+            if href and not href.startswith('mailto:') and not href.startswith('#') and link_text:
+                # Replace the <a> tag with markdown-style link
+                a.replace_with(f'[{link_text}]({href})')
+
+        # Get text with links preserved as markdown
+        text_with_links = soup.get_text(separator='\n', strip=True)
+
+        # Also extract standalone links list for reference
+        soup_for_links = BeautifulSoup(body, 'lxml')
         links = [(a.get_text(strip=True), a.get('href'))
-                 for a in soup.find_all('a', href=True)
+                 for a in soup_for_links.find_all('a', href=True)
                  if a.get('href') and not a.get('href').startswith('mailto:')]
 
         return {
@@ -218,9 +233,9 @@ class TheDropGenerator:
             'from': headers.get('From', ''),
             'subject': headers.get('Subject', ''),
             'date': headers.get('Date', ''),
-            'text': text,
+            'text': text_with_links,  # Now includes [text](url) markdown links
             'html': body,
-            'links': links[:30],  # Limit links to avoid token explosion
+            'links': links[:30],  # Keep for reference/backup
             'images': images
         }
 
@@ -333,8 +348,7 @@ class TheDropGenerator:
         email_summaries = []
         for email in emails:
             # Truncate long emails to manage tokens (more aggressive)
-            text = email['text'][:2000] if len(email['text']) > 2000 else email['text']
-            links_text = '\n'.join([f"- {t}: {url}" for t, url in email['links'][:10]])
+            text = email['text'][:2500] if len(email['text']) > 2500 else email['text']
 
             email_summaries.append(f"""
 ---
@@ -342,11 +356,8 @@ FROM: {email['from']}
 SUBJECT: {email['subject']}
 DATE: {email['date']}
 
-CONTENT:
+CONTENT (links embedded as [text](url) format - USE THESE EXACT URLs):
 {text}
-
-LINKS:
-{links_text}
 ---
 """)
 
@@ -361,6 +372,13 @@ This is a {'Monday' if day_name == 'Monday' else 'mid-week'} issue, so it should
 Here are the newsletter emails received since the last issue:
 
 {''.join(email_summaries)}
+
+CRITICAL URL INSTRUCTIONS:
+- Links are embedded in the content above as [text](url) markdown format
+- You MUST use these EXACT URLs from the source content - they are real tracking URLs that work
+- NEVER fabricate or construct your own URLs (e.g., never make up URLs like techcrunch.com/2026/...)
+- If you cannot find a real URL for a story in the source content, SKIP that item entirely
+- The URLs may be long newsletter tracking URLs - that's fine, use them as-is
 
 Please generate today's issue of The Drop based on these sources. Output the content for each section in a structured format that I can inject into the HTML template.
 

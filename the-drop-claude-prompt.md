@@ -213,29 +213,24 @@ Note: URLs must be actual article links from the source publication - never use 
 
 ### CRITICAL: Hyperlinks Required (All sections EXCEPT Good Morning)
 
-**EVERY news item MUST include a markdown hyperlink to a LEGITIMATE, SPECIFIC article URL.**
+**EVERY news item MUST include a markdown hyperlink using URLs from the source content.**
 
-**Acceptable URL sources (in order of preference):**
-1. Direct article URL extracted from source newsletter links
-2. Company press release or IR page (investor.company.com, company.com/press)
-3. Major publications: Bloomberg, WSJ, FT, CNBC, Reuters, NYT, Business Week
-4. Wire services: PRNewswire, Business Wire, GlobeNewswire
-5. Industry publications: STAT News, Endpoints, Fierce Pharma, TechCrunch, The Information
-6. Journal publications for research/clinical data
+**MANDATORY URL RULES:**
+1. URLs are provided inline in the source content as [text](url) markdown format
+2. You MUST extract and use these EXACT URLs - they are real newsletter tracking URLs that work
+3. These tracking URLs may be long (e.g., link.morningbrew.com/click/...) - USE THEM AS-IS
+4. NEVER construct or fabricate your own URLs (e.g., never make up URLs like "techcrunch.com/2024/...")
+5. NEVER guess what a URL might be - only use URLs you can see in the source content
 
-**NEVER use:**
-- Generic homepage URLs (e.g., axios.com, bloomberg.com without an article path)
-- Made-up or placeholder URLs
-- example.com or similar fake domains
-- Newsletter tracking URLs that redirect to homepages
-- URLs you are not confident are real
-
-**If you cannot find a legitimate, specific article URL for an item:**
+**If you cannot find a real URL for a story in the source content:**
 - SKIP the item entirely
-- Do NOT use a homepage fallback
 - Do NOT fabricate a URL
+- Do NOT use homepage URLs as fallback
 
-Format: `[clickable text](URL)` - the URL must be a real, specific article link
+**URL Format:** `[clickable text](exact-url-from-source)`
+
+**Good example:** Copy URL exactly: `[Nvidia earnings](https://link.morningbrew.com/click/abc123...)`
+**Bad example:** Making up URL: `[Nvidia earnings](https://www.cnbc.com/2024/nvidia-earnings.html)`
 
 ### Formatting Rules
 **NEVER use em dashes (—).** Use colons, commas, or separate sentences instead.
