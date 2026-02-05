@@ -679,8 +679,8 @@ Format your response as:
         else:
             message['subject'] = f"Today's Drop: {datetime.now().strftime('%B %d')}"
 
-        # Attach HTML
-        html_part = MIMEText(html_content, 'html')
+        # Attach HTML with UTF-8 charset to properly handle long URLs with special characters
+        html_part = MIMEText(html_content, 'html', 'utf-8')
         message.attach(html_part)
 
         # Encode and send using sender account
