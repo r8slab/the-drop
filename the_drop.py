@@ -126,8 +126,13 @@ class TheDropGenerator:
         with open(last_run_path, 'w') as f:
             f.write(datetime.now().isoformat())
 
-    def fetch_newsletters(self):
-        """Fetch unread emails from Newsletters label and all sublabels (from source account)."""
+    def fetch_newsletters(self, days_back=None, include_read=False):
+        """Fetch emails from Newsletters label and all sublabels (from source account).
+
+        Args:
+            days_back: If set, fetch emails from the last N days instead of since last run
+            include_read: If True, include both read and unread emails
+        """
         # Get all labels that start with "Newsletters"
         labels = self.gmail_source.users().labels().list(userId='me').execute()
         newsletter_labels = [
@@ -136,15 +141,29 @@ class TheDropGenerator:
         ]
 
         if not newsletter_labels:
-            logger.warning("No Newsletter labels found in source account. Searching all unread emails.")
-            query = "is:unread"
+            logger.warning("No Newsletter labels found in source account. Searching all emails.")
+            query = ""
         else:
             # Build OR query with curly braces for all newsletter labels
             # Gmail syntax: {label:A label:B} means A OR B
-            after_timestamp = int(self.last_run_time.timestamp())
             label_parts = [f'label:"{l}"' for l in newsletter_labels]
             or_query = '{' + ' '.join(label_parts) + '}'
-            query = f"{or_query} is:unread after:{after_timestamp}"
+
+            # Determine time window
+            if days_back:
+                after_time = datetime.now() - timedelta(days=days_back)
+                after_timestamp = int(after_time.timestamp())
+                logger.info(f"Fetching emails from last {days_back} days")
+            else:
+                after_timestamp = int(self.last_run_time.timestamp())
+                logger.info(f"Fetching emails since last run")
+
+            # Build query - optionally include read emails
+            if include_read:
+                query = f"{or_query} after:{after_timestamp}"
+            else:
+                query = f"{or_query} is:unread after:{after_timestamp}"
+
             logger.info(f"Found {len(newsletter_labels)} newsletter labels")
 
         logger.info(f"Fetching emails from source account with query: {query}")
@@ -153,7 +172,7 @@ class TheDropGenerator:
         results = self.gmail_source.users().messages().list(
             userId='me',
             q=query,
-            maxResults=30
+            maxResults=35
         ).execute()
 
         messages = results.get('messages', [])
@@ -314,7 +333,7 @@ class TheDropGenerator:
         email_summaries = []
         for email in emails:
             # Truncate long emails to manage tokens (more aggressive)
-            text = email['text'][:3000] if len(email['text']) > 3000 else email['text']
+            text = email['text'][:2000] if len(email['text']) > 2000 else email['text']
             links_text = '\n'.join([f"- {t}: {url}" for t, url in email['links'][:10]])
 
             email_summaries.append(f"""
@@ -408,7 +427,7 @@ Format your response as:
         logger.info("Calling Claude API for newsletter generation...")
         response = self.claude.messages.create(
             model=CLAUDE_MODEL,
-            max_tokens=8000,
+            max_tokens=16000,
             system=system_prompt,
             messages=[{"role": "user", "content": user_message}]
         )
@@ -433,6 +452,7 @@ Format your response as:
         if current_section:
             sections[current_section] = '\n'.join(current_content).strip()
 
+        logger.info(f"Parsed sections: {list(sections.keys())}")
         return sections
 
     def _bullets_to_html(self, content, accent_color='#818CF8'):
@@ -706,15 +726,20 @@ Format your response as:
         except Exception as e:
             logger.error(f"Failed to send failure notification: {e}")
 
-    def run(self):
-        """Main execution flow."""
+    def run(self, days_back=None, include_read=False):
+        """Main execution flow.
+
+        Args:
+            days_back: If set, fetch emails from the last N days instead of since last run
+            include_read: If True, include both read and unread emails
+        """
         try:
             logger.info("Starting The Drop generation...")
 
             # 1. Fetch emails
             logger.info("Fetching newsletters...")
-            emails = self.fetch_newsletters()
-            logger.info(f"Found {len(emails)} unread newsletters")
+            emails = self.fetch_newsletters(days_back=days_back, include_read=include_read)
+            logger.info(f"Found {len(emails)} newsletters")
 
             if not emails:
                 logger.info("No new emails to process. Exiting.")
@@ -764,6 +789,10 @@ if __name__ == "__main__":
                         help='Generate HTML preview without sending email')
     parser.add_argument('--preview-file', type=str, default='preview.html',
                         help='Output file for preview (default: preview.html)')
+    parser.add_argument('--days', type=int, default=None,
+                        help='Fetch emails from the last N days (default: since last run)')
+    parser.add_argument('--include-read', action='store_true',
+                        help='Include read emails (default: unread only)')
     args = parser.parse_args()
 
     generator = TheDropGenerator()
@@ -772,8 +801,8 @@ if __name__ == "__main__":
         # Preview mode: generate HTML and save to file, don't send
         logger.info("Running in PREVIEW mode - no email will be sent")
         logger.info("Fetching newsletters...")
-        emails = generator.fetch_newsletters()
-        logger.info(f"Found {len(emails)} unread newsletters")
+        emails = generator.fetch_newsletters(days_back=args.days, include_read=args.include_read)
+        logger.info(f"Found {len(emails)} newsletters")
 
         if emails:
             market_image = generator._extract_exec_sum_market_image(emails)
@@ -800,4 +829,4 @@ if __name__ == "__main__":
         else:
             logger.info("No emails to process")
     else:
-        generator.run()
+        generator.run(days_back=args.days, include_read=args.include_read)
