@@ -28,11 +28,15 @@ jobs:
 
       - name: Set up credentials
         env:
-          GMAIL_TOKEN: ${{ secrets.GMAIL_TOKEN }}
-          GMAIL_CREDENTIALS: ${{ secrets.GMAIL_CREDENTIALS }}
+          GMAIL_TOKEN_SOURCE: ${{ secrets.GMAIL_TOKEN_SOURCE }}
+          GMAIL_TOKEN_SENDER: ${{ secrets.GMAIL_TOKEN_SENDER }}
+          GMAIL_CREDENTIALS_SOURCE: ${{ secrets.GMAIL_CREDENTIALS_SOURCE }}
+          GMAIL_CREDENTIALS_SENDER: ${{ secrets.GMAIL_CREDENTIALS_SENDER }}
         run: |
-          echo "$GMAIL_TOKEN" > token.json
-          echo "$GMAIL_CREDENTIALS" > credentials.json
+          echo "$GMAIL_TOKEN_SOURCE" > token-source.json
+          echo "$GMAIL_TOKEN_SENDER" > token-sender.json
+          echo "$GMAIL_CREDENTIALS_SOURCE" > credentials-source.json
+          echo "$GMAIL_CREDENTIALS_SENDER" > credentials-sender.json
 
       - name: Run The Drop generator
         env:
@@ -44,4 +48,4 @@ jobs:
       - name: Clean up credentials
         if: always()
         run: |
-          rm -f token.json credentials.json
+          rm -f token-source.json token-sender.json credentials-source.json credentials-sender.json
